@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Arch paketleme çıktıları
+paketleme/arch/src/
+paketleme/arch/pkg/
+paketleme/arch/*.tar.gz
+paketleme/arch/*.pkg.tar.*
+
+# Düzenleyici ve sistem dosyaları
+.idea/
+.vscode/
+*.swp
+.DS_Store
+.pytest_cache/
+.env
+
+# makepkg
+pkg/
+src/

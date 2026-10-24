@@ -1,0 +1,65 @@
+# Maintainer: lckt0 <lckt0 at protonmail dot com>
+pkgbase=harfiyen
+pkgname=('harfiyen' 'harfiyen-mola')
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Terminalde kademeli on parmak klavye eğitimi (Türkçe Q/F, İngilizce)"
+arch=('any')
+url="https://github.com/lckt0/harfiyen"
+license=('MIT')
+makedepends=('python' 'python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+    cd "$pkgbase-$pkgver"
+    python -m build --wheel --no-isolation
+}
+
+check() {
+    cd "$pkgbase-$pkgver"
+    python -m unittest discover -s tests -t .
+}
+
+package_harfiyen() {
+    depends=('python')
+    optdepends=('pyside6: masaüstü arayüzü (harfiyen-masaustu)'
+                'ttf-jetbrains-mono: masaüstü arayüzünün yazı tipi'
+                'harfiyen-mola: medya oynarken aralıklarla kısa alıştırma')
+
+    cd "$pkgbase-$pkgver"
+    python -m installer --destdir="$pkgdir" dist/*.whl
+    local site
+    site=$(python -c 'import site; print(site.getsitepackages()[0])')
+    rm -r "$pkgdir$site/harfiyen_mola" "$pkgdir/usr/bin/harfiyen-mola"
+    install -Dm644 paketleme/harfiyen.desktop "$pkgdir/usr/share/applications/harfiyen.desktop"
+    install -Dm644 paketleme/harfiyen-masaustu.desktop \
+        "$pkgdir/usr/share/applications/harfiyen-masaustu.desktop"
+    install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
+    install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}
+
+package_harfiyen-mola() {
+    pkgdesc="Medya oynarken aralıklarla ekrana kısa bir on parmak alıştırması çıkarır (Harfiyen eki)"
+    depends=("harfiyen=$pkgver" 'pyside6' 'python-dbus' 'layer-shell-qt')
+    optdepends=('ttf-jetbrains-mono: alıştırma penceresinin yazı tipi'
+                'mpv-mpris: mpv ile oynatılan medyayı izlemek için')
+
+    cd "$pkgbase-$pkgver"
+    local site
+    site=$(python -c 'import site; print(site.getsitepackages()[0])')
+    install -Dm644 -t "$pkgdir$site/harfiyen_mola/" \
+        mola/harfiyen_mola/__init__.py mola/harfiyen_mola/__main__.py mola/harfiyen_mola/mola.qml
+    python -m compileall -q -o 0 -o 1 -s "$pkgdir" -p / "$pkgdir$site/harfiyen_mola"
+    install -Dm755 /dev/stdin "$pkgdir/usr/bin/harfiyen-mola" <<'EOF'
+#!/usr/bin/python3
+import sys
+from harfiyen_mola import main
+sys.exit(main())
+EOF
+    install -Dm644 mola/paketleme/harfiyen-mola.service \
+        "$pkgdir/usr/lib/systemd/user/harfiyen-mola.service"
+    install -Dm644 mola/paketleme/harfiyen-mola.desktop \
+        "$pkgdir/usr/share/applications/harfiyen-mola.desktop"
+    install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
+}

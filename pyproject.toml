@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harfiyen"
+dynamic = ["version"]
+description = "Terminalde kademeli on parmak klavye eğitimi (Türkçe Q/F, İngilizce)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE.md"]
+authors = [{ name = "lckt0", email = "lckt0@protonmail.com" }]
+keywords = ["typing", "touch-typing", "typing-tutor", "tui", "curses", "terminal",
+            "on-parmak", "klavye", "turkish", "keyboard"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console :: Curses",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Education",
+    "Natural Language :: Turkish",
+    "Natural Language :: English",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Education",
+    "Topic :: Games/Entertainment",
+]
+
+[project.optional-dependencies]
+masaustu = ["PySide6>=6.5"]
+# harfiyen-mola sistemin PySide6, dbus-python ve LayerShellQt paketlerini kullanır (README)
+
+[project.urls]
+Homepage = "https://github.com/lckt0/harfiyen"
+Issues = "https://github.com/lckt0/harfiyen/issues"
+Changelog = "https://github.com/lckt0/harfiyen/blob/main/CHANGELOG.md"
+
+[project.scripts]
+harfiyen = "harfiyen:main"
+
+[project.gui-scripts]
+harfiyen-masaustu = "harfiyen_masaustu:main"
+harfiyen-mola = "harfiyen_mola:main"
+
+[tool.setuptools]
+py-modules = ["harfiyen"]
+packages = ["harfiyen_masaustu", "harfiyen_mola"]
+
+[tool.setuptools.package-dir]
+harfiyen_mola = "mola/harfiyen_mola"
+
+[tool.setuptools.package-data]
+harfiyen_masaustu = ["qml/*.qml"]
+harfiyen_mola = ["mola.qml"]
+
+[tool.setuptools.dynamic]
+version = { attr = "harfiyen.__version__" }

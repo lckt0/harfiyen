@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Harfiyen
+GenericName=Typing Tutor
+GenericName[tr]=Klavye Eğitimi
+Comment=Progressive touch typing trainer
+Comment[tr]=Kademeli on parmak klavye eğitimi
+Exec=harfiyen-masaustu
+Icon=input-keyboard
+Terminal=false
+Categories=Education;
+Keywords=typing;touch typing;keyboard;tutor;
+Keywords[tr]=harfiyen;on parmak;klavye;yazma;typing;keyboard;

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Harfiyen Mola
+GenericName=On Parmak Alıştırması
+Comment=Hemen kısa bir on parmak alıştırması (oynayan medyayı duraklatır)
+Exec=harfiyen-mola --ac
+Icon=input-keyboard
+Terminal=false
+Categories=Education;
+Keywords=harfiyen;mola;onparmak;on parmak;klavye;alıştırma;typing;

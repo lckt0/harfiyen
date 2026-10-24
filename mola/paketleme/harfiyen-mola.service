@@ -1,0 +1,13 @@
+[Unit]
+Description=Harfiyen Mola: medya oynarken aralıklarla kısa on parmak alıştırması
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/harfiyen-mola
+Restart=on-failure
+RestartSec=5
+Slice=app.slice
+
+[Install]
+WantedBy=graphical-session.target
